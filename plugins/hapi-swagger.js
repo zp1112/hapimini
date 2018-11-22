@@ -1,20 +1,11 @@
 const inert = require('inert');
 const vision = require('vision');
 const package = require('package');
-const basic = require('./basic');
 const hapiSwagger = require('hapi-swagger');
 
 module.exports = [
-  basic,
   inert,
   vision,
-  // {
-  //   plugin: require('./auth'),
-  //   options: {
-  //     username: 'candy',
-  //     password: '222'
-  //   }
-  // },
   {
     plugin: hapiSwagger,
     options: {
@@ -26,6 +17,8 @@ module.exports = [
       grouping: 'tags',
       tags: [
         { name: 'tests', description: '测试相关' },
+        { name: 'users', description: '用户相关' },
+        { name: 'shops', description: '商铺相关' },
       ]
     }
   }

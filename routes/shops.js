@@ -8,6 +8,7 @@ module.exports = [
     method: 'GET',
     path: `/${GROUP_NAME}`,
     handler: async (request, h) => {
+      console.log(request.auth.credentials);
       const { rows: results, count: totalCount } = await models.shops.findAndCountAll({
         attributes: [
           'id',
@@ -17,16 +18,17 @@ module.exports = [
         offset: (request.query.page - 1) * request.query.limit,
       });
       // 开启分页的插件，返回的数据结构里，需要带上 result 与 totalCount 两个字段
-      return { results, totalCount };
+      return h.paginate({ results, otherKey: 'value', otherKey2: 'value2', totalCount }, 0, { key: 'results' });
     },
     config: {
+      auth: 'jwt',
       tags: ['api', GROUP_NAME],
-      auth: false,
       description: '获取店铺列表',
       validate: {
         query: {
           ...paginationDefine,
-        }
+        },
+        ...jwtHeaderDefine,
       }
     }
   },
